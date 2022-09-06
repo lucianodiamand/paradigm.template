@@ -27,7 +27,7 @@ jobs:
         with:
           switches: -avzr --delete
           rsh: -q
-          path: src/
+          path: ./
           owner: www-data
           remote_path: /var/www/html/
           remote_host: ${{ secrets.TEST_HOST }}
