@@ -20,7 +20,7 @@ export class Server extends ApiServer {
      * Configures the server before starting.
      */
     protected configureApplication(): void {
-        this.logger.debug("Configuring application...");
+        this.logger.debug("Configuring application!");
         const configuration = this.configurationBuilder.build(Configuration);
         const port = configuration.port || process.env.PORT || 5000;
         
