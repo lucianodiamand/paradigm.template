@@ -18,10 +18,10 @@ jobs:
           DB_PASS: ${{ secrets.DB_PASS }}
           DB_NAME: ${{ secrets.DB_NAME }}
         run: |
-          echo paradigm_api__mysql__host='$DB_HOST' > .env
-          echo paradigm_api__mysql__user='$DB_USER' >> .env
-          echo paradigm_api__mysql__password='$DB_PASS' >> .env
-          echo paradigm_api__mysql__database='$DB_NAME' >> .env
+          echo paradigm_api__mysql__host="$DB_HOST" > .env
+          echo paradigm_api__mysql__user="$DB_USER" >> .env
+          echo paradigm_api__mysql__password="$DB_PASS" >> .env
+          echo paradigm_api__mysql__database="$DB_NAME" >> .env
       - name: rsync web files
         uses: lucianodiamand/rsync-deploy@main
         with:
