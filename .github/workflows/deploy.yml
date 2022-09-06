@@ -28,6 +28,7 @@ jobs:
           switches: -avzr --delete
           rsh: -q
           path: src/
+          owner: www-data
           remote_path: /var/www/html/
           remote_host: ${{ secrets.TEST_HOST }}
           remote_port: ${{ secrets.TEST_PORT }}
