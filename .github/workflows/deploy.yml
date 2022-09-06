@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      - name: Build
+        run: npm run build
       - name: Generate .env file
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
@@ -18,16 +25,16 @@ jobs:
           DB_PASS: ${{ secrets.DB_PASS }}
           DB_NAME: ${{ secrets.DB_NAME }}
         run: |
-          echo paradigm_api__mysql__host="$DB_HOST" > dist/.env
-          echo paradigm_api__mysql__user="$DB_USER" >> dist/.env
-          echo paradigm_api__mysql__password="$DB_PASS" >> dist/.env
-          echo paradigm_api__mysql__database="$DB_NAME" >> dist/.env
+          echo paradigm_api__mysql__host="$DB_HOST" > ./dist/.env
+          echo paradigm_api__mysql__user="$DB_USER" >> ./dist/.env
+          echo paradigm_api__mysql__password="$DB_PASS" >> ./dist/.env
+          echo paradigm_api__mysql__database="$DB_NAME" >> ./dist/.env
       - name: rsync web files
         uses: lucianodiamand/rsync-deploy@main
         with:
           switches: -avzr --delete
           rsh: -q
-          path: .dist/
+          path: ./dist/
           owner: www-data
           remote_path: /var/www/html/
           remote_host: ${{ secrets.TEST_HOST }}
