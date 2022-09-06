@@ -1,0 +1,35 @@
+name: Despliega la app
+
+on:
+    push:
+        branches:
+            -   main
+
+jobs:
+  my-job:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate .env file
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: echo paradigm_api__mysql__host='$DB_HOST' > .env
+        run: echo paradigm_api__mysql__user='$DB_USER' >> .env
+        run: echo paradigm_api__mysql__password='$DB_PASS' >> .env
+        run: echo paradigm_api__mysql__database='$DB_NAME' >> .env
+      - name: rsync web files
+        uses: lucianodiamand/rsync-deploy@main
+        with:
+          switches: -avzr --delete
+          rsh: -q
+          path: src/
+          remote_path: /var/www/html/
+          remote_host: ${{ secrets.TEST_HOST }}
+          remote_port: ${{ secrets.TEST_PORT }}
+          remote_user: ${{ secrets.TEST_USER }}
+          remote_key: ${{ secrets.TEST_DEPLOY_KEY }}
+
